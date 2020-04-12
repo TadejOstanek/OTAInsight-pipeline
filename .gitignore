@@ -1,2 +1,5 @@
 *.xlsx
 auth
+__pycache__
+.spyproject
+*.csv
