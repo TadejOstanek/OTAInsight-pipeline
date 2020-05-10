@@ -16,4 +16,4 @@ for root, folder, files in os.walk(Path('data_export')):
 
 all_data = pd.concat(dfs)
 
-all_data.to_csv('data_export/all_data.csv', index=False)
+all_data.to_csv('all_data.csv', index=False)

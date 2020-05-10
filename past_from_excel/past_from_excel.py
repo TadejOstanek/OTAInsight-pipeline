@@ -14,7 +14,7 @@ for root, dirs, files in os.walk(Path("past_from_excel")):
         if not file.endswith('.py'):
             datest = file[:file.index('.csv')]
             data = pd.read_csv(Path('past_from_excel', file),
-                               parse_dates=['Date'])
+                               parse_dates=['Date'], dayfirst=True)
             data = data.assign(Date=data.Date.dt.date)
 
             data = data.melt('Date')
@@ -24,5 +24,5 @@ for root, dirs, files in os.walk(Path("past_from_excel")):
             data = data.assign(value=data.value.replace(
                 'Sold out', '0').astype(float))
 
-            data.to_csv(Path('data_export/rates_result/' + datest + '.csv'),
+            data.to_csv(Path('data_export/rates_result' + datest + '.csv'),
                         index=False)
