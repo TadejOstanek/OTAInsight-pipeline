@@ -4,4 +4,6 @@ __pycache__
 .spyproject
 credentials.json
 *.csv
+*.xlsx
+*.xlsm
 settings.yaml
