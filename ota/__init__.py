@@ -13,6 +13,7 @@ class OTAInsight:
     """
     Client for OTAInsight
     """
+
     def __init__(self, auth_token=None):
         """
         Initialize the class with auth token
@@ -23,7 +24,6 @@ class OTAInsight:
             raise Exception('You must provide an OAuth access token')
         self.token = auth_token
         self.url = "https://api.otainsight.com/v2/"
-
 
     def _get(self, folder, **queryparams):
         """
@@ -64,11 +64,8 @@ class OTAInsight:
         """
 
         result = self._get(folder='rates',
-                         subscriptionId=sub_id, ota=ota, los=los,
-                         persons=persons, fromDate=from_date,
-                         shopLength=shop_length)['rates']
+                           subscriptionId=sub_id, ota=ota, los=los,
+                           persons=persons, fromDate=from_date,
+                           shopLength=shop_length)['rates']
 
         return pd.DataFrame(result)
-
-
-
