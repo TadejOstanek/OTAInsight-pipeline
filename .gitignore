@@ -7,3 +7,6 @@ credentials.json
 *.xlsx
 *.xlsm
 settings.yaml
+lambda_layer
+billing
+*.pbix
