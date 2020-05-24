@@ -25,4 +25,3 @@ f = drive.CreateFile({
     'parents': [{'id': '131uqtvxWy0qIzg4Fs0wIszeM09B7ZJ07'}]})
 f.SetContentFile('data_export/rates_result' + str(date.today()) + '.csv')
 f.Upload() # Upload the file.
-rates_data.to_csv('data_export/rates_result' + str(date_stamp) + '.csv')
