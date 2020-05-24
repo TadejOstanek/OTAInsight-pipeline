@@ -1,0 +1,5 @@
+#!/bin/bash
+cd /home/tadej_ostanek/cretehotels
+~/miniconda3/envs/ota-insight/bin/python '/home/tadej_ostanek/cretehotels/get_data.py'
+~/miniconda3/envs/ota-insight/bin/python '/home/tadej_ostanek/cretehotels/combine_csvs.py'
+~/miniconda3/envs/ota-insight/bin/python '/home/tadej_ostanek/cretehotels/google_drive.py'
