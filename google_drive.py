@@ -14,13 +14,14 @@ gauth.LocalWebserverAuth()
 
 drive = GoogleDrive(gauth)
 
-def overwrite_upload(folderid, file_name, path=None)
+def overwrite_upload(folderid, file_name, path=None):
     file_list = drive.ListFile(
         {'q': f"'{folderid}' in parents and trashed = False"}).GetList()
     for file in file_list:
         if file['title'] == file_name:
             file.Delete()
-    f = drive.CreateFile({'parents': [{'id': folderid}]})
+    f = drive.CreateFile({'parents': [{'id': folderid}],
+                          'title': file_name})
     if path is not None:
         file_path = path + '/' + file_name
     else:
