@@ -7,13 +7,14 @@ Created on Sun Apr 12 14:46:16 2020
 from ota import OTAInsight
 from datetime import date
 import pandas as pd
+from pathlib import Path
 import numpy as np
 
 kiani_subid = 89365
 
 date_stamp = date.today()
 
-with open('auth/ota_token.txt', 'r') as fa:
+with open(Path('auth/ota_token.txt'), 'r') as fa:
     token = fa.read()
 
 client = OTAInsight(token)
