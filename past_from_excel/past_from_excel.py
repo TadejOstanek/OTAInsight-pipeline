@@ -10,6 +10,7 @@ import pandas as pd
 import numpy as np
 import os
 
+placeholder = list()
 for root, dirs, files in os.walk(Path("past_from_excel")):
     for file in files:
         if file.endswith('.csv'):
@@ -29,8 +30,9 @@ for root, dirs, files in os.walk(Path("past_from_excel")):
 
             data = data.assign(value=data.value.replace(
                 'Sold out', np.nan).replace('No data', np.nan).astype(float))
+            placeholder.append(data)
 
-            data.to_csv(Path(
-                'data_export/rates_result_past_' +
-                site + '_' + hotel + '.csv'),
-                index=False)
+alldata = pd.concat(placeholder, sort=False)
+alldata.to_csv(Path(
+    'data_export/rates_result_past.csv'),
+    index=False)
