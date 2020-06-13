@@ -14,6 +14,7 @@ gauth.LocalWebserverAuth()
 
 drive = GoogleDrive(gauth)
 
+
 def overwrite_upload(folderid, file_name, path=None):
     file_list = drive.ListFile(
         {'q': f"'{folderid}' in parents and trashed = False"}).GetList()
@@ -29,7 +30,17 @@ def overwrite_upload(folderid, file_name, path=None):
     f.SetContentFile(file_path)
     f.Upload()
 
-overwrite_upload('1niAms7QddkNxn8NU3b6AKHViA-efVJfa', 'all_data.csv')
-overwrite_upload('131uqtvxWy0qIzg4Fs0wIszeM09B7ZJ07',
+# kiani results
+overwrite_upload('1Y-bjMHHzllC9Q3GNK_IYHKp5bQVf2Nem', 'all_data.csv',
+                 path='results/Kiani Beach Resort Family All Inclusive')
+#kalyves results
+overwrite_upload('1xnzukMUCq8GcYlGQ0u5o0tcqbGc3J2Qq', 'all_data.csv',
+                 path='results/Kalyves Beach Resort')
+# kiani beach daily
+overwrite_upload('1eDqBlFCu1lroPyh4dQPx7mYyxOIWreDa',
                  'rates_result' + str(date.today()) + '.csv',
-                 path='data_export')
+                 path='data_export/Kiani Beach Resort Family All Inclusive')
+# kalyves daily
+overwrite_upload('1I5HB8w_fON6qas2G-CTG3Rwx7iqJq-iR',
+                 'rates_result' + str(date.today()) + '.csv',
+                 path='data_export/Kalyves Beach Resort')
