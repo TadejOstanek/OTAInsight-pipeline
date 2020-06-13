@@ -19,20 +19,27 @@ with open(Path('auth/ota_token.txt'), 'r') as fa:
 
 client = OTAInsight(token)
 
-plist = dict()
-for site in ['bookingdotcom', 'expedia']:
-    plist[site] = client.get_rates(
-        sub_id=str(kiani_subid), los='3', ota=site,
-        from_date='2020-03-01', shop_length='250')
+# get hotels
+hotels = client.get_hotels()
 
-rates_data = pd.concat(plist).reset_index().rename(
-    columns={'level_0': 'site'}).drop(columns='level_1')
-rates_data['date_stamp'] = str(date_stamp)
+for hotel in hotels:
 
-rates_data = rates_data.loc[:, ['date_stamp', 'site', 'arrivalDate',
-                                'hotelName', 'value']]
+    plist = dict()
+    for site in ['bookingdotcom', 'expedia']:
+        plist[site] = client.get_rates(
+            sub_id=str(hotel['subscription_id']), los='3', ota=site,
+            from_date='2020-03-01', shop_length='250')
 
-rates_data = rates_data.assign(value=rates_data.value.replace(0, np.nan))
+    rates_data = pd.concat(plist).reset_index().rename(
+        columns={'level_0': 'site'}).drop(columns='level_1')
+    rates_data['date_stamp'] = str(date_stamp)
 
-rates_data.to_csv('data_export/rates_result' + str(date_stamp) + '.csv',
-                  index=False)
+    rates_data = rates_data.loc[:, ['date_stamp', 'site', 'arrivalDate',
+                                    'hotelName', 'value']]
+
+    rates_data = rates_data.assign(value=rates_data.value.replace(0, np.nan))
+
+    rates_data.to_csv(
+        'data_export/' + hotel['name'] +
+        '/rates_result' + str(date_stamp) + '.csv',
+        index=False)
