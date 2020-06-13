@@ -35,7 +35,7 @@ overwrite_upload('1Y-bjMHHzllC9Q3GNK_IYHKp5bQVf2Nem', 'all_data.csv',
                  path='results/Kiani Beach Resort Family All Inclusive')
 #kalyves results
 overwrite_upload('1xnzukMUCq8GcYlGQ0u5o0tcqbGc3J2Qq', 'all_data.csv',
-                 path='results/Kalyves Beach Resort')
+                 path='results/Kalyves Beach Hotel')
 # kiani beach daily
 overwrite_upload('1eDqBlFCu1lroPyh4dQPx7mYyxOIWreDa',
                  'rates_result' + str(date.today()) + '.csv',
@@ -43,4 +43,4 @@ overwrite_upload('1eDqBlFCu1lroPyh4dQPx7mYyxOIWreDa',
 # kalyves daily
 overwrite_upload('1I5HB8w_fON6qas2G-CTG3Rwx7iqJq-iR',
                  'rates_result' + str(date.today()) + '.csv',
-                 path='data_export/Kalyves Beach Resort')
+                 path='data_export/Kalyves Beach Hotel')
