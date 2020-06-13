@@ -11,21 +11,25 @@ import re
 from datetime import datetime, date
 import pandas as pd
 
-dfs = list()
-for root, folder, files in os.walk(Path('data_export')):
-    for file in files:
-        try:
-            date_parse = datetime.strptime(
-                re.search(r'\d\d\d\d-\d\d-\d\d', file)[0], '%Y-%m-%d').date()
-        # no date in file name
-        except TypeError:
-            day_diff = 0
-        else:
-            day_diff = (date.today() - date_parse).days
+for hotel in ['Kalyves Beach Hotel',
+              'Kiani Beach Resort Family All Inclusive']:
 
-        if day_diff <= 7 or day_diff % 7 == 0:
-            dfs.append(pd.read_csv('data_export/' + file))
+    dfs = list()
 
-all_data = pd.concat(dfs)
+    for root, folder, files in os.walk(Path('data_export', hotel)):
+        for file in files:
+            try:
+                date_parse = datetime.strptime(
+                    re.search(r'\d\d\d\d-\d\d-\d\d', file)[0], '%Y-%m-%d').date()
+            # no date in file name
+            except TypeError:
+                day_diff = 0
+            else:
+                day_diff = (date.today() - date_parse).days
 
-all_data.to_csv('all_data.csv', index=False)
+            if day_diff <= 7 or day_diff % 7 == 0:
+                dfs.append(pd.read_csv(Path('data_export', hotel, file)))
+
+    all_data = pd.concat(dfs)
+
+    all_data.to_csv(Path('results', hotel, 'all_data.csv'), index=False)
