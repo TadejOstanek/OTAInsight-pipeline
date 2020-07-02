@@ -27,7 +27,7 @@ for hotel in hotels:
     plist = dict()
     for site in ['bookingdotcom', 'expedia']:
         plist[site] = client.get_rates(
-            sub_id=str(hotel['subscription_id']), los='3', ota=site,
+            sub_id=str(hotel['subscription_id']), los='2', ota=site,
             from_date='2020-03-01', shop_length='250')
 
     rates_data = pd.concat(plist).reset_index().rename(
