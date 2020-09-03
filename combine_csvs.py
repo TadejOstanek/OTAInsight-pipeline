@@ -20,14 +20,15 @@ for hotel in ['Kalyves Beach Hotel',
         for file in files:
             try:
                 date_parse = datetime.strptime(
-                    re.search(r'\d\d\d\d-\d\d-\d\d', file)[0], '%Y-%m-%d').date()
+                    re.search(
+                        r'\d\d\d\d-\d\d-\d\d', file)[0], '%Y-%m-%d').date()
             # no date in file name
             except TypeError:
                 day_diff = 0
             else:
                 day_diff = (date.today() - date_parse).days
 
-            if day_diff <= 7 or day_diff % 7 == 0:
+            if day_diff <= 7 or date_parse.day in [7, 14, 21, 30]:
                 dfs.append(pd.read_csv(Path('data_export', hotel, file)))
 
     all_data = pd.concat(dfs)
