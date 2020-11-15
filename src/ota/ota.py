@@ -37,12 +37,12 @@ class OTAInsight:
     @classmethod
     def init_from_file(cls, filepath: str):
         ''' Initialize the client by providing the path to the token
-        
+
         Args:
             filepath(str): filepath to token
         '''
-        with open(filepath, 'r') as f:
-            return cls(f.read())
+        with open(filepath, 'r') as file:
+            return cls(file.read())
 
 
     def _append_token(self, qparams: Dict) -> Dict:

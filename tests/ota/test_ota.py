@@ -64,7 +64,6 @@ class TestInitFromFile:
         assert client.token == 'testtokenvalue' 
 
 
-
 class TestAppendToken:
     '''test method that appeds token to dictionary
     of query parameters'''
@@ -99,7 +98,7 @@ class TestAppendToken:
 
 
 @requests_mock.Mocker(kw='mock')
-class TestGet():
+class TestGet:
     '''Test _get method of client'''
 
     def test_calls_get(self, init_client, **kwargs):
@@ -113,7 +112,7 @@ class TestGet():
         '''test if it returns json response parsed as dictionary'''
         client = init_client
         kwargs['mock'].get(client.url,
-            text='{"test_key": "test_value"}')
+                           text='{"test_key": "test_value"}')
         client._get()
         assert isinstance(client.response, dict)
         assert client.response == {"test_key": "test_value"}
@@ -122,8 +121,7 @@ class TestGet():
     def test_raises_http_error(self, init_client, errors, **kwargs):
         '''it should raise an error when requests returns an error'''
         client = init_client
-        kwargs['mock'].get(client.url,
-            status_code=errors)
+        kwargs['mock'].get(client.url, status_code=errors)
         with pytest.raises(requests.exceptions.HTTPError):
             client._get()
 
@@ -131,7 +129,7 @@ class TestGet():
         '''test if it correctly appends api endpoint to base url'''
         client = init_client
         kwargs['mock'].get(client.url + 'endpoint',
-            json='passed')
+                           json='passed')
         client._get('endpoint')
         assert client.response == 'passed'
 
@@ -144,7 +142,7 @@ class TestGetHotels:
         '''Tests if it calls the correct endpoint - hotels'''
         client = init_client
         kwargs['mock'].get(client.url + 'hotels',
-            text='{"hotels": "passed"}')
+                           text='{"hotels": "passed"}')
         assert client.get_hotels() == 'passed'
 
 
@@ -156,7 +154,7 @@ class TestGetRates:
         '''Tests if it calls the correct endpoint - rates'''
         client = init_client
         kwargs['mock'].get(client.url + 'rates',
-            text='{"rates": "passed"}')
+                           text='{"rates": "passed"}')
         assert client.get_rates(555, '2020-01-01') == 'passed'
 
 
@@ -182,7 +180,7 @@ class TestQueryParamsToStr:
     def test_on_date(self):
         '''it should parse dates'''
         assert query_params_to_str(
-            {'test': date(2020,1,1)}) == {'test': '2020-01-01'}
+            {'test': date(2020, 1, 1)}) == {'test': '2020-01-01'}
 
     def test_on_float(self):
         '''it should raise error on floats'''
@@ -193,7 +191,7 @@ class TestQueryParamsToStr:
     def test_multiple_ok(self):
         '''it should handle multiple entries'''
         assert query_params_to_str(
-            {'test_date': date(2020,5,1),
+            {'test_date': date(2020, 5, 1),
              'test_int': 531,
              'test_str': 'str'}) == {'test_date': '2020-05-01',
                                      'test_int': '531',
