@@ -31,9 +31,19 @@ class OTAInsight:
             raise TypeError(
                 'You must provide a valid OAuth access token')
 
-        self.token = auth_token
-        self.session = requests.Session()
+        self._token = auth_token
+        self._session = requests.Session()
         self.response = None
+
+    @property
+    def token(self):
+        '''Make token a read only property'''
+        return self._token
+
+    @property
+    def session(self):
+        '''Make session a read only property'''
+        return self._session
 
     @classmethod
     def init_from_file(cls, filepath: str):

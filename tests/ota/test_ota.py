@@ -21,7 +21,6 @@ class TestInit():
     def test_attributes(self):
         '''Make sure attributed are assigned correctly'''
         client = OTAInsight('test_token')
-
         assert client.token == 'test_token'
         assert OTAInsight.URL == 'https://api.otainsight.com/v2/'
         assert isinstance(client.session, requests.Session)
@@ -34,12 +33,19 @@ class TestInit():
 
     def test_raise_for_wrong_type(self):
         '''Test if it raises an exception if token is not string'''
-
         with pytest.raises(TypeError) as e:
             client = OTAInsight(4543534534)
         with pytest.raises(TypeError) as e:
             client = OTAInsight(['fsd'])
             assert e.match('valid access token')
+
+    def test_properties_read_only(self, init_client):
+        '''test if session and token are read only properties'''
+        with pytest.raises(AttributeError):
+            init_client.token = 'new_token'
+        with pytest.raises(AttributeError):
+            init_client.session = requests.Session()
+
 
 
 class TestInitFromFile:
