@@ -15,6 +15,8 @@ class OTAInsight:
     Client for OTAInsight
     """
 
+    URL = "https://api.otainsight.com/v2/"
+
     def __init__(self, auth_token: str):
         """
         Initialize the class with auth token
@@ -30,7 +32,6 @@ class OTAInsight:
                 'You must provide a valid OAuth access token')
 
         self.token = auth_token
-        self.url = "https://api.otainsight.com/v2/"
         self.session = requests.Session()
         self.response = None
 
@@ -43,7 +44,6 @@ class OTAInsight:
         '''
         with open(filepath, 'r') as file:
             return cls(file.read())
-
 
     def _append_token(self, qparams: Dict) -> Dict:
         '''Append token to other query parameters for get
@@ -65,7 +65,6 @@ class OTAInsight:
         qparams.update({'token': self.token})
         return qparams
 
-
     def _get(self, folder: str = '', **queryparams) -> Dict:
         """
         Handle authenticated GET requests
@@ -81,7 +80,7 @@ class OTAInsight:
         params = query_params_to_str(queryparams)
         params = self._append_token(params)
         response = self.session.get(
-            url=self.url + folder, params=params)
+            url=OTAInsight.URL + folder, params=params)
         response.raise_for_status()
         self.response = response.json()
 
@@ -99,7 +98,7 @@ class OTAInsight:
                   ota: str = 'bookingdotcom',
                   los: Union[str, int] = '1',
                   persons: Union[str, int] = '2',
-                  shop_length: Union[str, int] = '90'):
+                  shop_length: Union[str, int] = '90') -> List[Dict]:
         """
         Get rates data for a specified hotel
 
@@ -111,6 +110,9 @@ class OTAInsight:
             los(str_or_int): length of stay
             persons(str_or_int): persons for stay
             shop_length(str_or_int): how many days from start date
+
+        Returns:
+            list_of_dict: one entry per day per hotel
         """
 
         self._get(folder='rates',
@@ -129,6 +131,9 @@ def query_params_to_str(qparams: Dict) -> Dict:
 
     Returns:
         dict: query parameters with values as strings
+
+    Raises:
+        TypeError: in case floats are passed
     '''
     if [el for el in qparams.values() if isinstance(el, float)]:
         raise TypeError('query parameters cannot be floats')

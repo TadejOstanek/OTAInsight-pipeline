@@ -23,7 +23,7 @@ class TestInit():
         client = OTAInsight('test_token')
 
         assert client.token == 'test_token'
-        assert client.url == 'https://api.otainsight.com/v2/'
+        assert OTAInsight.URL == 'https://api.otainsight.com/v2/'
         assert isinstance(client.session, requests.Session)
         assert client.response is None
 
@@ -104,14 +104,14 @@ class TestGet:
     def test_calls_get(self, init_client, **kwargs):
         '''test if it actually calls the requests get method'''
         client = init_client
-        kwargs['mock'].get(client.url, json='passed')
+        kwargs['mock'].get(OTAInsight.URL, json='passed')
         client._get()
         assert client.response == 'passed'
 
     def test_returns_dict(self, init_client, **kwargs):
         '''test if it returns json response parsed as dictionary'''
         client = init_client
-        kwargs['mock'].get(client.url,
+        kwargs['mock'].get(OTAInsight.URL,
                            text='{"test_key": "test_value"}')
         client._get()
         assert isinstance(client.response, dict)
@@ -121,14 +121,14 @@ class TestGet:
     def test_raises_http_error(self, init_client, errors, **kwargs):
         '''it should raise an error when requests returns an error'''
         client = init_client
-        kwargs['mock'].get(client.url, status_code=errors)
+        kwargs['mock'].get(OTAInsight.URL, status_code=errors)
         with pytest.raises(requests.exceptions.HTTPError):
             client._get()
 
     def test_adds_endpoint(self, init_client, **kwargs):
         '''test if it correctly appends api endpoint to base url'''
         client = init_client
-        kwargs['mock'].get(client.url + 'endpoint',
+        kwargs['mock'].get(OTAInsight.URL + 'endpoint',
                            json='passed')
         client._get('endpoint')
         assert client.response == 'passed'
@@ -141,7 +141,7 @@ class TestGetHotels:
     def test_calls_correct_endpoint(self, init_client, **kwargs):
         '''Tests if it calls the correct endpoint - hotels'''
         client = init_client
-        kwargs['mock'].get(client.url + 'hotels',
+        kwargs['mock'].get(OTAInsight.URL + 'hotels',
                            text='{"hotels": "passed"}')
         assert client.get_hotels() == 'passed'
 
@@ -153,7 +153,7 @@ class TestGetRates:
     def test_calls_correct_endpoint(self, init_client, **kwargs):
         '''Tests if it calls the correct endpoint - rates'''
         client = init_client
-        kwargs['mock'].get(client.url + 'rates',
+        kwargs['mock'].get(OTAInsight.URL + 'rates',
                            text='{"rates": "passed"}')
         assert client.get_rates(555, '2020-01-01') == 'passed'
 
