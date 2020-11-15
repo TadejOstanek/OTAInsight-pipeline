@@ -2,6 +2,7 @@
 auth
 __pycache__
 .spyproject
+client_secrets.json
 credentials.json
 *.csv
 *.xlsx

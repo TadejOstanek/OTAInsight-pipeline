@@ -12,6 +12,7 @@ import requests
 
 logger = logging.getLogger(__name__)
 
+
 class OTAInsight:
     """
     Client for OTAInsight
