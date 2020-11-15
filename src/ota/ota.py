@@ -77,7 +77,8 @@ class OTAInsight:
 
     def _get(self, folder: str = '', **queryparams) -> Dict:
         """
-        Handle authenticated GET requests
+        Handle authenticated GET requests, works for non
+        string arguments as long as they can be turned to string
 
         Args:
             folder (str, optional):

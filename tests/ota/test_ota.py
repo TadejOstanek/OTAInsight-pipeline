@@ -139,6 +139,29 @@ class TestGet:
         client._get('endpoint')
         assert client.response == 'passed'
 
+    def test_uses_queryparams(self, init_client, **kwargs):
+        '''does it sucessfully make a request with query params'''
+        client = init_client
+        kwargs['mock'].get(OTAInsight.URL + 'endpoint?test=value',
+                           json='passed')
+        client._get('endpoint', test='value')
+        assert client.response == 'passed'
+
+    def test_parses_nonstring_qparams(self, init_client, **kwargs):
+        '''does it sucessfully make a request with query params
+        even if they are not a string'''
+        client = init_client
+        kwargs['mock'].get(
+            OTAInsight.URL + 'endpoint?test_int=9',
+            json='passed')
+        kwargs['mock'].get(
+            OTAInsight.URL + 'endpoint?test_date=2020-05-01',
+            json='passed')
+        client._get('endpoint', test_int=9)
+        assert client.response == 'passed'
+        client._get('endpoint', test_date=date(2020, 5, 1))
+        assert client.response == 'passed'
+
 
 @requests_mock.Mocker(kw='mock')
 class TestGetHotels:
