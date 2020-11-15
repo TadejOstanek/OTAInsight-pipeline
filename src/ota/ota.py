@@ -120,10 +120,10 @@ class OTAInsight:
             sub_id(str): subscription id of the hotel
             from_date(str_or_datetime.date): date from which to start
                 %Y-%m-%d if string
-            ota(str): which ota channel to use
-            los(str_or_int): length of stay
-            persons(str_or_int): persons for stay
-            shop_length(str_or_int): how many days from start date
+            ota(str, optional): which ota channel to use
+            los(str_or_int, optional): length of stay
+            persons(str_or_int, optional): persons for stay
+            shop_length(str_or_int, optional): how many days from start date
 
         Returns:
             list_of_dict: one entry per day per hotel

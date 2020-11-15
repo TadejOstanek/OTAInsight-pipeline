@@ -6,12 +6,12 @@ Get data from api and create all_data result files
 """
 
 import logging
-from ota import OTAInsight, helpers
-import yaml
+import logging.config
 from pathlib import Path
 from datetime import date
-import logging.config
-
+import yaml
+from src.ota.ota import OTAInsight
+from src import data, helpers
 
 logging.config.dictConfig(yaml.load(open('logs/config.yaml'),
                                     Loader=yaml.FullLoader))
@@ -21,10 +21,7 @@ logger = logging.getLogger(__name__)
 def main():
     date_stamp = date.today()
 
-    with open(Path('auth/ota_token.txt'), 'r') as fa:
-        token = fa.read()
-
-    client = OTAInsight(token)
+    client = OTAInsight.init_from_file('auth/ota_token.txt')
     hotels = client.get_hotels()
     start_dates = helpers.generate_dates(date_stamp)
 

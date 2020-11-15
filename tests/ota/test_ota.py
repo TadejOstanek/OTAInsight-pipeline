@@ -15,7 +15,7 @@ def init_client():
     return OTAInsight('test_token')
 
 
-class TestInit():
+class TestInit:
     '''Test the __init__ constructor of the class'''
 
     def test_attributes(self):
