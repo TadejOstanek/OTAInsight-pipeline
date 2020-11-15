@@ -7,8 +7,10 @@ API client for OTA insight.
 
 from typing import Dict, List, Union
 import datetime
+import logging
 import requests
 
+logger = logging.getLogger(__name__)
 
 class OTAInsight:
     """
@@ -93,6 +95,7 @@ class OTAInsight:
         response = self.session.get(
             url=OTAInsight.URL + folder, params=params)
         response.raise_for_status()
+        logger.info('Sucessfully retrieved from %s', folder)
         self.response = response.json()
 
     def get_hotels(self) -> List[Dict]:
