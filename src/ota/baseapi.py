@@ -49,3 +49,50 @@ class BaseAPI:
         self.response.raise_for_status()
         logger.info(
             'Sucessfully retrieved from %s%s', self.url, endpoint)
+
+
+class TokenAPI(BaseAPI):
+    '''Extension of base api that uses a simple token for auth'''
+
+    def __init__(self, url, token):
+        '''
+        Return instance of class
+        Args:
+            url(str): base url of the api
+            token(str): auth token
+        Raises:
+            TypeError-if token is not a string
+        '''
+        BaseAPI.__init__(self, url)
+        if not isinstance(token, str):
+            raise TypeError(
+                'You must provide a valid OAuth access token')
+        self._token = token
+
+    @property
+    def token(self):
+        '''Make token a read only property'''
+        return self._token
+
+    @classmethod
+    def init_from_file(cls, filepath, url):
+        ''' Initialize the client by providing the path to the token
+        Args:
+            filepath (str): filepath to token
+            url (str): base url for the api 
+        '''
+        with open(filepath, 'r') as file:
+            return cls(url, token=file.read())
+
+    def _get(self, endpoint, **queryparams):
+        """
+        Handle authenticated GET requests 
+        Extend parent by passing token to query parameters
+        Args:
+            endpoint (str, optional):
+                the api folder to append to base url
+            queryparams (**kwargs): The query string parameters
+        """
+        super(TokenAPI, self)._get(endpoint=endpoint, 
+            token=self.token, **queryparams)
+

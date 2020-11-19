@@ -5,70 +5,48 @@ API client for OTA insight.
 @author: tadej
 """
 
-from typing import Dict, List, Union
+from typing import Dict, List, Union, Optional
 import datetime
 import logging
 import requests
-from src.ota.baseapi import BaseAPI
+from src.ota.baseapi import TokenAPI
 
 logger = logging.getLogger(__name__)
 
 
-class OTAInsight(BaseAPI):
+class OTAInsight(TokenAPI):
     """
     Client for OTAInsight
     """
-
     URL = 'https://api.otainsight.com/v2/'
 
-    def __init__(self, auth_token: str):
+    def __init__(self, url: str = URL,
+        token: Optional[str] = None):
         """
         Initialize the class with auth token
-
         Args:
-            auth_token (str): access token from OTA
-
-        Raises:
-            TypeError-if token is not a string
+            token (str): access token from OTA
         """
-        BaseAPI.__init__(self, OTAInsight.URL)
-        if not isinstance(auth_token, str):
-            raise TypeError(
-                'You must provide a valid OAuth access token')
-
-        self._token = auth_token
-
-    @property
-    def token(self):
-        '''Make token a read only property'''
-        return self._token
-
-    @classmethod
-    def init_from_file(cls, filepath: str):
-        ''' Initialize the client by providing the path to the token
-
-        Args:
-            filepath(str): filepath to token
-        '''
-        with open(filepath, 'r') as file:
-            return cls(file.read())
+        TokenAPI.__init__(self, url, token)
 
     def _get(self, endpoint: str = '', **queryparams) -> Dict:
         """
-        Handle authenticated GET requests, works for non
-        string arguments as long as they can be turned to string
-
+        Handle authenticated GET requests - extend parent
+        by taking the parsed response as dictionary
         Args:
             endpoint (str, optional):
                 the api folder to append to base url
             queryparams (**kwargs): The query string parameters
-
-        Raises:
-            requests.exceptions.HTTPError for error status codes
         """
-        super(OTAInsight, self)._get(endpoint=endpoint, 
-            token=self.token, **queryparams)
+        super(OTAInsight, self)._get(
+            endpoint=endpoint, **queryparams)
         self.response = self.response.json()
+
+    @classmethod
+    def init_from_file(cls, filepath, url=URL):
+        '''calls parent class method but adds url'''
+        return super(OTAInsight, cls).init_from_file(
+            filepath, url)
 
     def get_hotels(self) -> List[Dict]:
         """Get data on all hotels the client is subscribed to
