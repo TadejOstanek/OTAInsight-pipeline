@@ -8,6 +8,20 @@ import pandas as pd
 import numpy as np
 
 
+def concat_dict_to_pd(pdict):
+    '''
+    Combine a dictionary of lists into a pandas dataframe with 
+    one of the columns dict keys
+    Args:
+        pdict (dict): a dictionary with entry for each source
+    Returns:
+        pd.DataFrame: all data combined with site column
+    '''
+    pdict = {key: pd.DataFrame(el) for key, el in pdict.items()}
+    rates_data = pd.concat(
+        pdict, names=['site', 'drop']).reset_index()
+    return rates_data
+
 def prep_data(pdict, date_stamp):
     '''prepare the data for save'''
     pdict = {key: pd.DataFrame(el) for key, el in pdict.items()}

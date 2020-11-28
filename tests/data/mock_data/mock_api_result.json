@@ -1,0 +1,82 @@
+{
+    "bookingdotcom": [
+        {
+            "value": 0,
+            "hotelId": 4243,
+            "hotelName": "Hotel1",
+            "extractDateTime": "2020-11-04T06:28:39",
+            "arrivalDate": "2021-03-01",
+            "los": 2,
+            "currency": "",
+            "shopCurrency": "",
+            "cancellation": false,
+            "vatIncl": false,
+            "cityTaxIncl": false,
+            "otherTaxesIncl": false,
+            "roomName": "",
+            "roomType": "",
+            "maxPersons": 0,
+            "mealTypeIncluded": 0,
+            "message": "rates.soldout"
+        },
+        {
+            "value": 214,
+            "hotelId": 42232,
+            "hotelName": "Hotel2",
+            "extractDateTime": "2020-11-04T06:28:41",
+            "arrivalDate": "2021-03-01",
+            "los": 2,
+            "currency": "",
+            "shopCurrency": "",
+            "cancellation": false,
+            "vatIncl": false,
+            "cityTaxIncl": false,
+            "otherTaxesIncl": false,
+            "roomName": "",
+            "roomType": "",
+            "maxPersons": 0,
+            "mealTypeIncluded": 0,
+            "message": "message"
+        }
+    ],
+    "expedia": [
+        {
+            "value": 0,
+            "hotelId": 323242,
+            "hotelName": "Hotel1",
+            "extractDateTime": "2020-05-21T11:38:56",
+            "arrivalDate": "2021-03-01",
+            "los": 2,
+            "currency": "",
+            "shopCurrency": "",
+            "cancellation": false,
+            "vatIncl": false,
+            "cityTaxIncl": false,
+            "otherTaxesIncl": false,
+            "roomName": "",
+            "roomType": "",
+            "maxPersons": 0,
+            "mealTypeIncluded": 0,
+            "message": "rates.soldout"
+        },
+        {
+            "value": 250,
+            "hotelId": 3432,
+            "hotelName": "Hotel2",
+            "extractDateTime": "2020-05-21T11:39:04",
+            "arrivalDate": "2021-03-01",
+            "los": 2,
+            "currency": "",
+            "shopCurrency": "",
+            "cancellation": false,
+            "vatIncl": false,
+            "cityTaxIncl": false,
+            "otherTaxesIncl": false,
+            "roomName": "",
+            "roomType": "",
+            "maxPersons": 0,
+            "mealTypeIncluded": 0,
+            "message": "rates.soldout"
+        }
+    ]
+}
