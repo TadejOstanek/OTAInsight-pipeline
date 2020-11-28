@@ -10,7 +10,7 @@ import numpy as np
 
 def concat_dict_to_pd(api_res):
     '''
-    Combine a dictionary of lists into a pandas dataframe with 
+    Combine a dictionary of lists into a pandas dataframe with
     one of the columns dict keys
     Args:
         api_res (dict): a dictionary with entry for each source
@@ -35,7 +35,7 @@ def prep_data(api_res, date_stamp):
     rates_data = concat_dict_to_pd(api_res)
     rates_data.loc[:, 'date_stamp'] = date_stamp
     rates_data = rates_data.loc[
-        :, ['date_stamp', 'site', 'arrivalDate', 
+        :, ['date_stamp', 'site', 'arrivalDate',
             'hotelName', 'value']]
     rates_data.value.replace(0, np.nan, inplace=True)
     return rates_data

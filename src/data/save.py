@@ -21,12 +21,12 @@ def prepare_paths(year, hotel, foldername, filename, gzip=False):
         pathlib.Path: full path to file in results folder
     '''
     extension = '.csv.gz' if gzip else '.csv'
-    return (Path() / str(year) / foldername / hotel / 
-        (filename + extension))
+    return (Path() / str(year) / foldername / hotel /
+            (filename + extension))
 
 
-def save_export(data, year, hotel, foldername, filename, 
-    gzip=False):
+def save_export(data, year, hotel, foldername, filename,
+                gzip=False):
     '''
     Save the prepared export data. In case full path doesn't exist yet
     create the necessary folders
@@ -40,8 +40,8 @@ def save_export(data, year, hotel, foldername, filename,
     Returns:
         pathlib.Path: folder where result was saved
     '''
-    file = prepare_paths(year, hotel, foldername, filename, 
-        gzip)
+    file = prepare_paths(year, hotel, foldername, filename,
+                         gzip)
     folder = file.parents[0]
 
     if not os.path.isdir(folder):

@@ -5,8 +5,6 @@ API client for OTA insight.
 @author: tadej
 """
 
-from typing import Dict, List, Union, Optional
-import datetime
 import logging
 from src.ota.baseapi import TokenAPI
 

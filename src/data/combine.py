@@ -12,7 +12,7 @@ import os
 
 
 def detect_required_files(folder):
-    '''Detect which files should be combined. 
+    '''Detect which files should be combined.
     Business logic is all in last week and specific dates each month
     Args:
         folder (patlib.Path): folder where results are located
@@ -32,9 +32,10 @@ def detect_required_files(folder):
                 file_list.append(file)
             else:
                 if (date.today() - date_parse).days <= 7 or (
-                    date_parse.day in [7, 14, 21, 30]):
+                        date_parse.day in [7, 14, 21, 30]):
                     file_list.append(file)
     return file_list
+
 
 def combine_csvs(export_folder):
     '''combine select csvs in the export folder of the hotel'''
