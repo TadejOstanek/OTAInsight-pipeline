@@ -6,16 +6,12 @@ Get data from api and create all_data result files
 """
 
 import logging
-import logging.config
 from datetime import date
-import yaml
-from ota.ota import OTAInsight
+from src.ota import OTAInsight
 import helpers
 from data import prepare, save, combine
 
-logging.config.dictConfig(yaml.load(
-    open('config/log_config.yaml'),
-    Loader=yaml.FullLoader))
+
 logger = logging.getLogger(__name__)
 
 
