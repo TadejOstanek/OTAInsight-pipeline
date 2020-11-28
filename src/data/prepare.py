@@ -8,30 +8,34 @@ import pandas as pd
 import numpy as np
 
 
-def concat_dict_to_pd(pdict):
+def concat_dict_to_pd(api_res):
     '''
     Combine a dictionary of lists into a pandas dataframe with 
     one of the columns dict keys
     Args:
-        pdict (dict): a dictionary with entry for each source
+        api_res (dict): a dictionary with entry for each source
     Returns:
         pd.DataFrame: all data combined with site column
     '''
-    pdict = {key: pd.DataFrame(el) for key, el in pdict.items()}
-    rates_data = pd.concat(
-        pdict, names=['site', 'drop']).reset_index()
-    return rates_data
+    api_res = {key: pd.DataFrame(el) for key, el in api_res.items()}
+    data = pd.concat(
+        api_res, names=['site', 'drop']).reset_index()
+    return data
 
-def prep_data(pdict, date_stamp):
-    '''prepare the data for save'''
-    pdict = {key: pd.DataFrame(el) for key, el in pdict.items()}
-    rates_data = pd.concat(pdict).reset_index().rename(
-        columns={'level_0': 'site'}).drop(columns='level_1')
-    rates_data['date_stamp'] = str(date_stamp)
 
-    rates_data = rates_data.loc[:, ['date_stamp', 'site', 'arrivalDate',
-                                    'hotelName', 'value']]
-
-    rates_data = rates_data.assign(
-        value=rates_data.value.replace(0, np.nan))
+def prep_data(api_res, date_stamp):
+    '''
+    Prepare API resutlt data for save as a csv
+    Args:
+        api_res (dict):  a dictionary with entry for each source
+        date_stamp (datetime.date): date of data capture
+    Returns:
+        pd.DataFrame: data ready for save
+    '''
+    rates_data = concat_dict_to_pd(api_res)
+    rates_data.loc[:, 'date_stamp'] = date_stamp
+    rates_data = rates_data.loc[
+        :, ['date_stamp', 'site', 'arrivalDate', 
+            'hotelName', 'value']]
+    rates_data.value.replace(0, np.nan, inplace=True)
     return rates_data
