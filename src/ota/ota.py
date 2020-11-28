@@ -8,7 +8,6 @@ API client for OTA insight.
 from typing import Dict, List, Union, Optional
 import datetime
 import logging
-import requests
 from src.ota.baseapi import TokenAPI
 
 logger = logging.getLogger(__name__)
@@ -17,19 +16,21 @@ logger = logging.getLogger(__name__)
 class OTAInsight(TokenAPI):
     """
     Client for OTAInsight
+    Params:
+        token (str): access token from OTA
+    Attributes:
+        url (str): base url of the api endpoint
+        response: placeholder for response of get requests
+    Raises:
+        TypeError-if token is not a string
     """
     URL = 'https://api.otainsight.com/v2/'
 
-    def __init__(self, url: str = URL,
-        token: Optional[str] = None):
-        """
-        Initialize the class with auth token
-        Args:
-            token (str): access token from OTA
-        """
+    def __init__(self, url=URL,
+                 token=None):
         TokenAPI.__init__(self, url, token)
 
-    def _get(self, endpoint: str = '', **queryparams) -> Dict:
+    def _get(self, endpoint='', **queryparams):
         """
         Handle authenticated GET requests - extend parent
         by taking the parsed response as dictionary
@@ -44,39 +45,40 @@ class OTAInsight(TokenAPI):
 
     @classmethod
     def init_from_file(cls, filepath, url=URL):
-        '''calls parent class method but adds url'''
+        '''
+        Initialize a client by reading token from file
+        Args:
+            filepath (str): path to file with a token
+        '''
         return super(OTAInsight, cls).init_from_file(
             filepath, url)
 
-    def get_hotels(self) -> List[Dict]:
+    def get_hotels(self):
         """Get data on all hotels the client is subscribed to
-
         Returns:
-            list: dictionaries of hotel and its competitors
+            list[dict]: dictionaries of hotel and its competitors
         """
         self._get(endpoint='hotels')
         return self.response['hotels']
 
-    def get_rates(self, sub_id: str,
-                  from_date: Union[str, datetime.date],
-                  ota: str = 'bookingdotcom',
-                  los: Union[str, int] = '1',
-                  persons: Union[str, int] = '2',
-                  shop_length: Union[str, int] = '90') -> List[Dict]:
+    def get_rates(self, sub_id,
+                  from_date,
+                  ota='bookingdotcom',
+                  los='1',
+                  persons='2',
+                  shop_length='90'):
         """
         Get rates data for a specified hotel
-
         Args:
             sub_id(str): subscription id of the hotel
-            from_date(str_or_datetime.date): date from which to start
+            from_date(str|datetime.date): date from which to start
                 %Y-%m-%d if string
             ota(str, optional): which ota channel to use
-            los(str_or_int, optional): length of stay
-            persons(str_or_int, optional): persons for stay
-            shop_length(str_or_int, optional): how many days from start date
-
+            los(int, optional): length of stay
+            persons(int, optional): persons for stay
+            shop_length(int, optional): how many days from start date
         Returns:
-            list_of_dict: one entry per day per hotel
+            list[dict]: one entry per day per hotel
         """
 
         self._get(endpoint='rates',
