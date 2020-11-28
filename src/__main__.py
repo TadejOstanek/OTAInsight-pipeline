@@ -23,7 +23,7 @@ def main():
         were saved
     '''
     date_stamp = date.today()
-    client = OTAInsight.init_from_file('auth/ota_token.txt')
+    client = OTAInsight()
     # get hotels to iterate over
     hotels = client.get_hotels()
     # get list of starting dates to iterate over

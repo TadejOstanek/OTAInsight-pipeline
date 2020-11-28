@@ -3,6 +3,7 @@
 Base API class logic, to be shared among various projects
 to get a headstart with implementation and testing
 """
+import os
 import logging
 import requests
 from requests.adapters import HTTPAdapter
@@ -58,10 +59,11 @@ class BaseAPI:
 
 class TokenAPI(BaseAPI):
     '''
-    Extension of base api that uses a simple token for auth
+    Extension of base api that uses a simple token for auth.
+    It can read it from environmantal variables
     Params:
         url(str): base url of the api
-        token(str): auth token
+        token(str, optional): auth token
     Attributes:
         url (str): base url of the api endpoint
         response: placeholder for response of get requests
@@ -72,8 +74,10 @@ class TokenAPI(BaseAPI):
         TypeError-if token is not a string
     '''
 
-    def __init__(self, url, token):
+    def __init__(self, url, token=None):
         BaseAPI.__init__(self, url)
+        if token is None:
+            token = os.environ.get('OTATOKEN')
         if not isinstance(token, str):
             raise TypeError(
                 'You must provide a valid access token')

@@ -26,6 +26,7 @@ class OTAInsight(TokenAPI):
 
     def __init__(self, url=URL,
                  token=None):
+
         TokenAPI.__init__(self, url, token)
 
     def _get(self, endpoint='', **queryparams):
