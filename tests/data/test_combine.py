@@ -8,15 +8,15 @@ import pandas as pd
 from src.data.combine import detect_required_files, combine_csvs
 
 @pytest.fixture
-def test_folder(tmpdir):
+def test_folder(tmp_path):
     '''generates test files in a temp folder'''
     files = [str(date.today()), str(date.today() - timedelta(days=2)),
              '2020-03-07', '2020-05-14', '2020-06-21', '2020-06-30',
              '2020-08-12', '2020-06-25', 'test_file']
     for file in files:
         pd.DataFrame([{'test': 0}]).to_csv(
-            tmpdir.join(file), index=False)
-    yield tmpdir
+            tmp_path / file, index=False)
+    yield tmp_path
 
 class TestDetectRequiredFiles:
 
