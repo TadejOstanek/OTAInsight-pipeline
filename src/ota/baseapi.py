@@ -9,41 +9,46 @@ from requests.adapters import HTTPAdapter
 
 logger = logging.getLogger(__name__)
 
+
 class BaseAPI:
-    '''Base class for other API clients to build on'''
+    '''
+    Base class for other API clients to build on
+    Params:
+        url(str): base url of the api
+    Attributes:
+        url (str): base url of the api endpoint
+        response: placeholder for response of get requests
+    '''
 
     def __init__(self, url):
-        '''
-        Return instance of class
-        Args:
-            url(str): base url of the api
-        '''
-
         self._url = url
         self._session = requests.Session()
-        self.response = None
+        self._response = None
         self._session.mount(self._url, HTTPAdapter(max_retries=5))
 
     @property
     def url(self):
+        '''set url as property'''
         return self._url
 
     @property
-    def session(self):
-        return self._session
+    def response(self):
+        '''response as property'''
+        return self._response
     
+
     def _get(self, endpoint='', **queryparams):
         '''
         Handle authenticated GET requests. Can handle non-string
         query params as long as they can be converted to string
         Args:
-            endpoint (str, optional): extra path for a particualar 
+            endpoint (str, optional): extra path for a particualar
                 API endpoint
             queryparams (**kwargs): http query parameters
         Raises:
             requests.exceptions.HTTPError for error status codes
         '''
-        self.response = self.session.get(
+        self._response = self._session.get(
             url=self.url + endpoint, params=queryparams,
             timeout=3)
         self.response.raise_for_status()
@@ -52,47 +57,46 @@ class BaseAPI:
 
 
 class TokenAPI(BaseAPI):
-    '''Extension of base api that uses a simple token for auth'''
+    '''
+    Extension of base api that uses a simple token for auth
+    Params:
+        url(str): base url of the api
+        token(str): auth token
+    Attributes:
+        url (str): base url of the api endpoint
+        response: placeholder for response of get requests
+    ClassMethods:
+        init_from_file: initialize an instance by passing
+            the path to token txt file
+    Raises:
+        TypeError-if token is not a string
+    '''
 
     def __init__(self, url, token):
-        '''
-        Return instance of class
-        Args:
-            url(str): base url of the api
-            token(str): auth token
-        Raises:
-            TypeError-if token is not a string
-        '''
         BaseAPI.__init__(self, url)
         if not isinstance(token, str):
             raise TypeError(
-                'You must provide a valid OAuth access token')
+                'You must provide a valid access token')
         self._token = token
-
-    @property
-    def token(self):
-        '''Make token a read only property'''
-        return self._token
 
     @classmethod
     def init_from_file(cls, filepath, url):
         ''' Initialize the client by providing the path to the token
         Args:
             filepath (str): filepath to token
-            url (str): base url for the api 
+            url (str): base url for the api
         '''
         with open(filepath, 'r') as file:
             return cls(url, token=file.read())
 
-    def _get(self, endpoint, **queryparams):
+    def _get(self, endpoint='', **queryparams):
         """
-        Handle authenticated GET requests 
+        Handle authenticated GET requests
         Extend parent by passing token to query parameters
         Args:
             endpoint (str, optional):
                 the api folder to append to base url
             queryparams (**kwargs): The query string parameters
         """
-        super(TokenAPI, self)._get(endpoint=endpoint, 
-            token=self.token, **queryparams)
-
+        super()._get(endpoint=endpoint,
+                     token=self._token, **queryparams)

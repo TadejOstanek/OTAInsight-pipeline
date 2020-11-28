@@ -1,10 +1,8 @@
 '''
 Test OTAInsight API client
 '''
-from datetime import date
 import os
 import pytest
-import requests
 import requests_mock
 from src.ota.ota import OTAInsight
 from src.ota.baseapi import TokenAPI
@@ -21,8 +19,7 @@ class TestInit:
 
     def test_implements_base_class(self, client):
         '''Make sure attributed are assigned correctly'''
-        assert isinstance(client, TokenAPI)
-        assert client.token == 'test_token'
+        assert client._token == 'test_token'
 
     def test_url(self, client):
         '''test if the url is set automatically'''
@@ -46,7 +43,7 @@ class TestInitFromFile:
         tokenpath = create_token_file
         client = OTAInsight.init_from_file(filepath=tokenpath)
         assert isinstance(client, OTAInsight)
-        assert client.token == 'testtokenvalue' 
+        assert client._token == 'testtokenvalue' 
 
 
 @requests_mock.Mocker(kw='mock')

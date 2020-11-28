@@ -14,6 +14,7 @@ def client():
     for all tests'''
     return BaseAPI('https://testurl.com')
 
+
 @pytest.fixture(scope='module')
 def token_client():
     '''Fixture to use the samle client and session
@@ -25,11 +26,12 @@ class TestBaseAPI:
 
     class TestInit:
         '''test the init constructor'''
+
         def test_attributes(self):
             '''Make sure attributed are assigned correctly'''
             client = BaseAPI('https://testurl.com')
             assert client.url == 'https://testurl.com'
-            assert isinstance(client.session, requests.Session)
+            assert isinstance(client._session, requests.Session)
             assert client.response is None
 
         def test_read_only(self):
@@ -37,16 +39,13 @@ class TestBaseAPI:
             client = BaseAPI('https://testurl.com')
             with pytest.raises(AttributeError):
                 client.url = 'b'
-            with pytest.raises(AttributeError):
-                client.session = 'b'
 
         def test_max_retries(self, client):
             '''test if base class is set up with a max retry
             system
             '''
-            assert client.session.get_adapter(
+            assert client._session.get_adapter(
                 client.url).max_retries.total == 5
-
 
     @requests_mock.Mocker(kw='mock')
     class TestGet:
@@ -96,6 +95,7 @@ class TestBaseAPI:
 
 class TestTokenAPI:
     '''test tokenapi subclass'''
+
     class TestInit:
 
         def test_implements_base_class(self, token_client):
@@ -105,24 +105,17 @@ class TestTokenAPI:
 
         def test_token(self, token_client):
             '''Make sure attributed are assigned correctly'''
-            assert token_client.token == 'test_token'
-
-        def test_token_read_only(self, token_client):
-            '''Make sure attributed are assigned correctly'''
-            with pytest.raises(AttributeError):
-                token_client.token = 'new_token'
+            assert token_client._token == 'test_token'
 
         def test_raise_for_wrong_type(self):
             '''Test if it raises an exception if token is not string'''
-            with pytest.raises(TypeError) as e:
-                client = TokenAPI(4543534534)
-            with pytest.raises(TypeError) as e:
-                client = TokenAPI(['fsd'])
-                assert e.match('valid access token')
-
+            with pytest.raises(TypeError):
+                TokenAPI('', 4543534534)
+            with pytest.raises(TypeError, match='valid access token'):
+                TokenAPI('', ['fsd'])
 
     class TestInitFromFile:
-        '''Test class method that initializes class by providing a path 
+        '''Test class method that initializes class by providing a path
         to where the token is'''
 
         @pytest.fixture()
@@ -137,9 +130,9 @@ class TestTokenAPI:
         def test_generates_client(self, create_token_file):
             tokenpath = create_token_file
             client = TokenAPI.init_from_file(tokenpath,
-                url='testurl')
+                                             url='testurl')
             assert isinstance(client, TokenAPI)
-            assert client.token == 'testtokenvalue' 
+            assert client._token == 'testtokenvalue'
 
     class TestGet:
         '''tests the extension of _get by TokenAPI'''
@@ -148,7 +141,7 @@ class TestTokenAPI:
             '''test if it uses token in the call'''
             client = token_client
             kwargs['mock'].get(
-                f'{client.url}endpoint?token={client.token}',
+                f'{client.url}endpoint?token={client._token}',
                 text='passed')
             client._get('endpoint')
             assert client.response.text == 'passed'

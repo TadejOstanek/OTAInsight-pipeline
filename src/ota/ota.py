@@ -40,7 +40,7 @@ class OTAInsight(TokenAPI):
         """
         super(OTAInsight, self)._get(
             endpoint=endpoint, **queryparams)
-        self.response = self.response.json()
+        self._response = self.response.json()
 
     @classmethod
     def init_from_file(cls, filepath, url=URL):
