@@ -29,23 +29,23 @@ def main():
     # get list of starting dates to iterate over
     start_dates = helpers.generate_dates(date_stamp)
     folders = []
-    for sdate in start_dates:
+    for start_date in start_dates:
         for hotel in hotels:
             hotel_name = hotel['name']
             pdict = dict()
             for site in ['bookingdotcom', 'expedia']:
                 pdict[site] = client.get_rates(
-                    sub_id=hotel['subscription_id'], from_date=sdate,
+                    sub_id=hotel['subscription_id'], from_date=start_date,
                     los='2', ota=site, shop_length='250')
             rates_data = prepare.prep_data(pdict, date_stamp)
             folder = save.save_export(
-                rates_data, year=sdate.year, hotel=hotel_name,
+                rates_data, year=start_date.year, hotel=hotel_name,
                 foldername='data_export',
                 filename=f'rates_result{date_stamp}',
                 gzip=True)
             combined = combine.combine_csvs(folder)
             folder = save.save_export(
-                combined, year=sdate.year, hotel=hotel_name,
+                combined, year=start_date.year, hotel=hotel_name,
                 filename='all_data', foldername='results')
             folders.append(folder)
     return folders
