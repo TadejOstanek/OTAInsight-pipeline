@@ -3,10 +3,12 @@ channels:
   - conda-forge
   - defaults
 dependencies:
+  - python=3.8
   - nomkl
   - pandas
   - requests
   - requests-mock
   - pytest
   - pytest-mock
+  - pytest-cov
   - pydrive

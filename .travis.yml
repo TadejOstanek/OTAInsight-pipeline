@@ -16,7 +16,7 @@ install:
   - pip install codecov
 
 script:
-  - pytest
+ - pytest --cov=cretehotels tests/ --cov-report=xml
 
 after_success:
   - codecov
