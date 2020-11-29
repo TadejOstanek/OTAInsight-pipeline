@@ -10,5 +10,4 @@ dependencies:
   - requests-mock
   - pytest
   - pytest-mock
-  - pytest-cov
   - pydrive

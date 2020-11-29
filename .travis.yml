@@ -13,7 +13,8 @@ install:
   # Replace dep1 dep2 ... with your dependencies
   - conda env create -f environment.yml
   - conda activate ota-insight
-  - pip install codecov
+  - conda install codecov
+  - conda install pytest-cov
 
 script:
  - pytest --cov=src tests/ --cov-report=xml
