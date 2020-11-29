@@ -17,7 +17,7 @@ install:
   - conda install pytest-cov
 
 script:
- - pytest --cov=src tests/ --cov-report=xml
+ - pytest --cov=src tests/
 
 after_success:
   - codecov

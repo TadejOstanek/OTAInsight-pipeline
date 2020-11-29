@@ -8,7 +8,7 @@ Get data from api and create all_data result files
 import logging
 from datetime import date
 from src.ota import OTAInsight
-import src.helpers as helpers
+import src.helpers.helpers as helpers
 from src.data import prepare, save, combine
 
 
