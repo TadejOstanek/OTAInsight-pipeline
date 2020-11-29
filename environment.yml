@@ -3,6 +3,7 @@ channels:
   - conda-forge
   - defaults
 dependencies:
+  - nomkl
   - pandas
   - requests
   - requests-mock
