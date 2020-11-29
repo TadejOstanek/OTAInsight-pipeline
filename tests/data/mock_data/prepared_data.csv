@@ -1,0 +1,5 @@
+date_stamp,site,arrivalDate,hotelName,value
+2020-01-01,bookingdotcom,2021-03-01,Hotel1,
+2020-01-01,bookingdotcom,2021-03-01,Hotel2,214
+2020-01-01,expedia,2021-03-01,Hotel1,
+2020-01-01,expedia,2021-03-01,Hotel2,250
