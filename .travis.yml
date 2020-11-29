@@ -10,13 +10,13 @@ install:
   - conda update -q conda
   # Useful for debugging any issues with conda
   - conda info -a
-
   # Replace dep1 dep2 ... with your dependencies
   - conda env create -f environment.yml
   - conda activate ota-insight
+  - pip install codecov
 
 script:
   - pytest
 
 after_success:
-  - coveralls --config_file .coveragerc
+  - codecov
