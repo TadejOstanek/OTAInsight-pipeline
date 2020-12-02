@@ -32,21 +32,6 @@ def overwrite_upload(folderid, file_name, path=None):
 
 
 # kiani results
-overwrite_upload('1Y-bjMHHzllC9Q3GNK_IYHKp5bQVf2Nem', 'all_data.csv',
-                 path='2020/results/Kiani Beach Resort Family All Inclusive')
-# kalyves results
-overwrite_upload('1xnzukMUCq8GcYlGQ0u5o0tcqbGc3J2Qq', 'all_data.csv',
-                 path='2020/results/Kalyves Beach Hotel')
-# kiani beach daily
-overwrite_upload('1eDqBlFCu1lroPyh4dQPx7mYyxOIWreDa',
-                 'rates_result' + str(date.today()) + '.csv.gz',
-                 path='2020/data_export/Kiani Beach Resort Family All Inclusive')
-# kalyves daily
-overwrite_upload('1I5HB8w_fON6qas2G-CTG3Rwx7iqJq-iR',
-                 'rates_result' + str(date.today()) + '.csv.gz',
-                 path='2020/data_export/Kalyves Beach Hotel')
-
-# kiani results
 overwrite_upload('1-iwhGlQNa_PpacsM6eewf9H_MadZJX-l', 'all_data.csv',
                  path='2021/results/Kiani Beach Resort Family All Inclusive')
 # kalyves results

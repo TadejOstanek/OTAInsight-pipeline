@@ -16,12 +16,12 @@ logger = logging.getLogger(__name__)
 
 
 def main():
-    '''
+    """
     Runs the pipeline from OTA-Insight to locally saved data
     Returns:
         list[pathlib.Path]: list of folders where final results
         were saved
-    '''
+    """
     date_stamp = date.today()
     client = OTAInsight()
     # get hotels to iterate over
