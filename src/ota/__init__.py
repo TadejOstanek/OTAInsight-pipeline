@@ -1,1 +1,1 @@
-from ota.ota import OTAInsight
+from src.ota.ota import OTAInsight
