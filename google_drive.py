@@ -36,7 +36,9 @@ def overwrite_upload(folderid, file_name, path=None):
 
 
 report_dates = generate_dates(date_stamp)
-config = json.loads("config/google_drive_folders.json")
+
+with open("config/google_drive_folders.json") as json_file:
+    config = json.load(json_file)
 
 for report_date in report_dates:
     year_config = config[str(report_date.year)]
