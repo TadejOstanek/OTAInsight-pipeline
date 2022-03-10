@@ -5,6 +5,7 @@ connect to google drive
 @author: tadej
 """
 from datetime import date
+from scr.helpers.helpers import generate_dates
 from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
 
@@ -30,18 +31,23 @@ def overwrite_upload(folderid, file_name, path=None):
     f.SetContentFile(file_path)
     f.Upload()
 
+date_stamp = date.today()
 
-# kiani results
-overwrite_upload('1-iwhGlQNa_PpacsM6eewf9H_MadZJX-l', 'all_data.csv',
-                 path='2021/results/Kiani Beach Resort Family All Inclusive')
-# kalyves results
-overwrite_upload('1cvOD1Zgb7fxdVxjrihEQta6MAcMp9gJz', 'all_data.csv',
-                 path='2021/results/Kalyves Beach Hotel')
-# kiani beach daily
-overwrite_upload('1Xhav2S4_NVFGqGZDyrQTxqyNrfGJ9poT',
-                 'rates_result' + str(date.today()) + '.csv.gz',
-                 path='2021/data_export/Kiani Beach Resort Family All Inclusive')
-# kalyves daily
-overwrite_upload('1ZlEmwhPOQmHa79jBoELXaNEekwktMx_c',
-                 'rates_result' + str(date.today()) + '.csv.gz',
-                 path='2021/data_export/Kalyves Beach Hotel')
+report_dates = generate_dates(date_stamp)
+
+for report_date in report_dates:
+
+    # kiani results
+    overwrite_upload('1-iwhGlQNa_PpacsM6eewf9H_MadZJX-l', 'all_data.csv',
+                     path=f'{report_date.year}/results/Kiani Beach Resort Family All Inclusive')
+    # kalyves results
+    overwrite_upload('1cvOD1Zgb7fxdVxjrihEQta6MAcMp9gJz', 'all_data.csv',
+                     path=f'{report_date.year}/results/Kalyves Beach Hotel')
+    # kiani beach daily
+    overwrite_upload('1Xhav2S4_NVFGqGZDyrQTxqyNrfGJ9poT',
+                     'rates_result' + str(date.today()) + '.csv.gz',
+                     path=f'{report_date.year}/data_export/Kiani Beach Resort Family All Inclusive')
+    # kalyves daily
+    overwrite_upload('1ZlEmwhPOQmHa79jBoELXaNEekwktMx_c',
+                     'rates_result' + str(date.today()) + '.csv.gz',
+                     path=f'{report_date.year}/data_export/Kalyves Beach Hotel')
