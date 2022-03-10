@@ -5,6 +5,7 @@ connect to google drive
 @author: tadej
 """
 from datetime import date
+import json
 from src.helpers.helpers import generate_dates
 from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
@@ -14,6 +15,7 @@ gauth = GoogleAuth()
 gauth.LocalWebserverAuth()
 
 drive = GoogleDrive(gauth)
+date_stamp = date.today()
 
 
 def overwrite_upload(folderid, file_name, path=None):
@@ -31,23 +33,19 @@ def overwrite_upload(folderid, file_name, path=None):
     f.SetContentFile(file_path)
     f.Upload()
 
-date_stamp = date.today()
+
 
 report_dates = generate_dates(date_stamp)
+config = json.loads("config/google_drive_folders.json")
 
 for report_date in report_dates:
+    year_config = config[str(report_date.year)]
 
-    # kiani results
-    overwrite_upload('1-iwhGlQNa_PpacsM6eewf9H_MadZJX-l', 'all_data.csv',
-                     path=f'{report_date.year}/results/Kiani Beach Resort Family All Inclusive')
-    # kalyves results
-    overwrite_upload('1cvOD1Zgb7fxdVxjrihEQta6MAcMp9gJz', 'all_data.csv',
-                     path=f'{report_date.year}/results/Kalyves Beach Hotel')
-    # kiani beach daily
-    overwrite_upload('1Xhav2S4_NVFGqGZDyrQTxqyNrfGJ9poT',
-                     'rates_result' + str(date.today()) + '.csv.gz',
-                     path=f'{report_date.year}/data_export/Kiani Beach Resort Family All Inclusive')
-    # kalyves daily
-    overwrite_upload('1ZlEmwhPOQmHa79jBoELXaNEekwktMx_c',
-                     'rates_result' + str(date.today()) + '.csv.gz',
-                     path=f'{report_date.year}/data_export/Kalyves Beach Hotel')
+    for hotel, folder_data in year_config.items():
+
+        overwrite_upload(folder_data["results"], 'all_data.csv',
+                         path=f'{report_date.year}/results/{hotel}')
+
+        overwrite_upload(folder_data["data_export"],
+                         'rates_result' + str(date.today()) + '.csv.gz',
+                         path=f'{report_date.year}/data_export/{hotel}')
