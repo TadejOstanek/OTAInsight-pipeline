@@ -5,7 +5,7 @@ connect to google drive
 @author: tadej
 """
 from datetime import date
-from scr.helpers.helpers import generate_dates
+from src.helpers.helpers import generate_dates
 from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
 
