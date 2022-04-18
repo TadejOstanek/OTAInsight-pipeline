@@ -23,7 +23,7 @@ class TestInit:
 
     def test_url(self, client):
         '''test if the url is set automatically'''
-        assert client.url == 'https://api.otainsight.com/v2/'
+        assert client.url == 'https://api.otainsight.com/v3/'
 
 
 class TestInitFromFile:

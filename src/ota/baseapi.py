@@ -26,6 +26,7 @@ class BaseAPI:
         self._session = requests.Session()
         self._response = None
         self._session.mount(self._url, HTTPAdapter(max_retries=5))
+        self.headers = None
 
     @property
     def url(self):
@@ -50,7 +51,7 @@ class BaseAPI:
             requests.exceptions.HTTPError for error status codes
         '''
         self._response = self._session.get(
-            url=self.url + endpoint, params=queryparams,
+            url=self.url + endpoint, params=queryparams, headers=self.headers,
             timeout=3)
         self.response.raise_for_status()
         logger.info(
@@ -82,6 +83,7 @@ class TokenAPI(BaseAPI):
             raise TypeError(
                 'You must provide a valid access token')
         self._token = token
+        self.headers = {"X-Oi-Authorization": self._token}
 
     @classmethod
     def init_from_file(cls, filepath, url):
@@ -102,5 +104,4 @@ class TokenAPI(BaseAPI):
                 the api folder to append to base url
             queryparams (**kwargs): The query string parameters
         """
-        super()._get(endpoint=endpoint,
-                     token=self._token, **queryparams)
+        super()._get(endpoint=endpoint, **queryparams)

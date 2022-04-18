@@ -22,7 +22,7 @@ class OTAInsight(TokenAPI):
     Raises:
         TypeError-if token is not a string
     """
-    URL = 'https://api.otainsight.com/v2/'
+    URL = 'https://api.otainsight.com/v3/'
 
     def __init__(self, url=URL,
                  token=None):

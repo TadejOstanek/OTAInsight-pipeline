@@ -106,6 +106,7 @@ class TestTokenAPI:
         def test_token(self, token_client):
             '''Make sure attributed are assigned correctly'''
             assert token_client._token == 'test_token'
+            assert token_client.headers == {"X-Oi-Authorization": "test_token"}
 
         def test_raise_for_wrong_type(self):
             '''Test if it raises an exception if token is not string'''
@@ -141,7 +142,8 @@ class TestTokenAPI:
             '''test if it uses token in the call'''
             client = token_client
             kwargs['mock'].get(
-                f'{client.url}endpoint?token={client._token}',
-                text='passed')
+                f'{client.url}endpoint',
+                text='passed',
+                request_headers = {"X-Oi-Authorization": "test_token"})
             client._get('endpoint')
             assert client.response.text == 'passed'
